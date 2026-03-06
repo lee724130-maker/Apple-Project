@@ -25,7 +25,8 @@ api.interceptors.response.use(
     // 如果是获取视频列表的请求，处理封面数据
     if (
       response.config.url?.includes('/videos') ||
-      response.config.url?.includes('/recommendations')
+      response.config.url?.includes('/recommendations') ||
+      response.config.url?.includes('/carousel')
     ) {
       if (Array.isArray(response.data)) {
         console.log(
@@ -208,5 +209,30 @@ export const deleteVideo = async (id) => {
   } catch (error) {
     console.error('【deleteVideo】失败:', error)
     throw error
+  }
+}
+
+/**
+ * 获取轮播图视频
+ * @param {number} limit - 获取数量
+ * @returns {Promise<Array>} 轮播图视频列表
+ */
+export const getCarouselVideos = async (limit = 5) => {
+  try {
+    console.log('【getCarouselVideos】开始请求')
+    const response = await api.get('/carousel', { params: { limit } })
+    console.log('【getCarouselVideos】成功，获取到', response.data.length, '条视频')
+    return response.data
+  } catch (error) {
+    console.error('【getCarouselVideos】失败', error)
+    // 降级处理：如果接口失败，从视频列表中随机获取
+    try {
+      const videos = await getVideoList()
+      const shuffled = [...videos].sort(() => 0.5 - Math.random())
+      return shuffled.slice(0, limit)
+    } catch (e) {
+      console.error('降级获取视频列表也失败:', e)
+      return []
+    }
   }
 }
