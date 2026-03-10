@@ -1,0 +1,36 @@
+:root {
+  /* 颜色 - 从原页面提取 */
+  --color-primary: #4a6cf7;        /* 主色调，从按钮提取 */
+  --color-secondary-3: #f5f8ff;     /* bg-secondary-3 */
+  --color-secondary-5: #0a1e3c;     /* bg-secondary-5 深色背景 */
+  --color-accent-1: #f97316;        /* 橙色强调色 */
+  --color-neutral-100: #ffffff;      /* 白色 */
+  --color-neutral-200: #f8f9fa;      /* 浅灰背景 */
+  --color-neutral-700: #4a5568;      /* 中等文字 */
+  --color-neutral-800: #1e293b;      /* 深色文字 */
+  
+  /* 排版 */
+  --font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  
+  /* 间距 */
+  --container-width: 1200px;
+  --section-padding: 80px 0;
+  --grid-gap: 30px;
+  
+  /* 圆角 */
+  --radius-24: 24px;
+  --radius-8: 8px;
+  
+  /* 阴影 */
+  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.1);
+  
+  /* 动画 */
+  --transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --section-padding: 60px 0;
+  }
+}

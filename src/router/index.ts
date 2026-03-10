@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import MainLayout from '@/layouts/MainLayout.vue'
 import HomeView from '@/views/HomeView.vue'
 
 const router = createRouter({
@@ -7,13 +6,8 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      component: MainLayout,
+      component: HomeView,
       children: [
-        {
-          path: '',
-          name: 'home',
-          component: HomeView
-        },
         // 这里可以添加更多子路由
         // {
         //   path: 'users',
