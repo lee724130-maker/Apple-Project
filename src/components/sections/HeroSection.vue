@@ -12,7 +12,7 @@
           </p>
           <div class="button-group">
             <button class="btn-primary">开始合作</button>
-            <a href="#" class="link-with-icon">
+            <a href="#" class="link-with-icon" @click.prevent="goToHomeWithReload">
               了解更多
               <span class="icon">→</span>
             </a>
@@ -27,6 +27,35 @@
     </div>
   </section>
 </template>
+
+<script setup>
+import { useRouter, useRoute } from 'vue-router'
+
+const router = useRouter()
+const route = useRoute()
+
+
+// 跳转到首页并刷新，同时滚动到顶部
+const goToHomeWithReload = () => {
+  if (route.path === '/') {
+    // 如果在首页，先滚动到顶部再刷新
+    window.scrollTo(0, 0)
+    setTimeout(() => {
+      window.location.reload()
+    }, 100)
+  } else {
+    // 如果不在首页，跳转到首页
+    router.push('/').then(() => {
+      // 确保滚动到顶部
+      window.scrollTo(0, 0)
+      // 延迟刷新，让滚动先完成
+      setTimeout(() => {
+        window.location.reload()
+      }, 100)
+    })
+  }
+}
+</script>
 
 <style scoped>
 .hero-section {
@@ -119,6 +148,7 @@
   font-weight: 500;
   transition: all 0.3s ease;
   padding: 8px 0;
+  cursor: pointer;
 }
 
 .link-with-icon:hover {

@@ -12,25 +12,9 @@
         <!-- 导航和按钮区域 -->
         <div class="nav-right">
           <nav class="nav-menu">
-            <a href="#" class="nav-link">Home</a>
-            
-            <!-- About 下拉菜单 -->
-            <div class="dropdown" @mouseenter="showDropdown = true" @mouseleave="showDropdown = false">
-              <button class="nav-link dropdown-trigger">
-                About
-                <span class="dropdown-arrow">▼</span>
-              </button>
-              
-              <!-- 下拉内容 -->
-              <Transition name="dropdown">
-                <div v-if="showDropdown" class="dropdown-content">
-                  <div class="dropdown-menu">
-                    <a href="#" class="dropdown-item">Team</a>
-                    <a href="#" class="dropdown-item">Contact</a>
-                  </div>
-                </div>
-              </Transition>
-            </div>
+            <a href="#" class="nav-link" @click.prevent="navigateToHome">首页</a>
+            <a href="#" class="nav-link" @click.prevent="navigateToHome">团队介绍</a>
+            <a href="#" class="nav-link" @click.prevent="scrollToFooter">联系我们</a>
           </nav>
           
           <!-- 统一按钮样式 -->
@@ -48,7 +32,6 @@ import AppLogo from '@/components/ui/AppLogo.vue'
 
 const router = useRouter()
 const route = useRoute()
-const showDropdown = ref(false)
 const isHovering = ref(false)
 
 // 处理Logo点击
@@ -59,6 +42,41 @@ const handleLogoClick = () => {
   } else {
     // 如果不在首页，跳转到首页
     router.push('/')
+  }
+}
+
+// 导航到首页的方法
+const navigateToHome = () => {
+   if (route.path === '/') {
+    // 如果在首页，刷新页面
+    window.location.reload()
+  } else {
+    // 如果不在首页，跳转到首页
+    router.push('/')
+  }
+}
+
+// 滚动到页脚
+const scrollToFooter = () => {
+  // 先确保在首页
+  if (route.path !== '/') {
+    router.push('/').then(() => {
+      // 等待页面加载完成后滚动到页脚
+      setTimeout(() => {
+        const footer = document.querySelector('.app-footer')
+        if (footer) {
+          footer.scrollIntoView({ behavior: 'smooth' })
+        }
+      }, 300)
+    })
+  } else {
+    // 已经在首页，直接滚动
+    setTimeout(() => {
+      const footer = document.querySelector('.app-footer')
+      if (footer) {
+        footer.scrollIntoView({ behavior: 'smooth' })
+      }
+    }, 100)
   }
 }
 </script>
@@ -85,8 +103,6 @@ const handleLogoClick = () => {
   align-items: center;
   height: 80px;
 }
-
-/* 移除旧的.logo样式，因为现在使用AppLogo组件 */
 
 /* 右侧导航和按钮 */
 .nav-right {
@@ -115,89 +131,6 @@ const handleLogoClick = () => {
 
 .nav-link:hover {
   color: #4a6cf7;
-}
-
-/* 下拉菜单容器 */
-.dropdown {
-  position: relative;
-}
-
-.dropdown-trigger {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.dropdown-arrow {
-  font-size: 0.75rem;
-  transition: transform 0.3s ease;
-}
-
-.dropdown:hover .dropdown-arrow {
-  transform: rotate(180deg);
-}
-
-/* 下拉菜单内容 */
-.dropdown-content {
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%);
-  min-width: 140px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  animation: dropdownFade 0.2s ease;
-}
-
-.dropdown-menu {
-  padding: 8px;
-}
-
-.dropdown-item {
-  display: block;
-  padding: 10px 20px;
-  color: #1e293b;
-  text-decoration: none;
-  font-size: 0.95rem;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.dropdown-item:hover {
-  background: #f1f4f9;
-  color: #4a6cf7;
-}
-
-/* 下拉菜单动画 */
-.dropdown-enter-active,
-.dropdown-leave-active {
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-.dropdown-enter-from,
-.dropdown-leave-to {
-  opacity: 0;
-  transform: translateX(-50%) translateY(-10px);
-}
-
-.dropdown-enter-to,
-.dropdown-leave-from {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-@keyframes dropdownFade {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
 }
 
 /* 统一按钮样式 - 与HeroSection保持一致 */

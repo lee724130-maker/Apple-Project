@@ -24,7 +24,7 @@
       
       <!-- 底部链接 -->
       <div class="section-footer">
-        <a href="#" class="link-with-icon">
+        <a href="#" class="link-with-icon" @click.prevent="goToHomeWithReload">
           了解更多服务
           <span class="icon">→</span>
         </a>
@@ -34,6 +34,11 @@
 </template>
 
 <script setup>
+import { useRouter, useRoute } from 'vue-router'
+
+const router = useRouter()
+const route = useRoute()
+
 const services = [
   {
     icon: '📱',
@@ -72,6 +77,27 @@ const services = [
     tech: 'Hadoop · Spark · Tableau · AWS/Azure'
   }
 ]
+
+// 跳转到首页并刷新，同时滚动到顶部
+const goToHomeWithReload = () => {
+  if (route.path === '/') {
+    // 如果在首页，先滚动到顶部再刷新
+    window.scrollTo(0, 0)
+    setTimeout(() => {
+      window.location.reload()
+    }, 100)
+  } else {
+    // 如果不在首页，跳转到首页
+    router.push('/').then(() => {
+      // 确保滚动到顶部
+      window.scrollTo(0, 0)
+      // 延迟刷新，让滚动先完成
+      setTimeout(() => {
+        window.location.reload()
+      }, 100)
+    })
+  }
+}
 </script>
 
 <style scoped>
